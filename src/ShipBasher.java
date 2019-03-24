@@ -4,7 +4,5 @@
  * it will attempt to turn on its shields.
  */
 public class ShipBasher extends SpaceShip {
-    ShipBasher() {
 
-    }
 }

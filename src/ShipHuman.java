@@ -4,7 +4,5 @@
  * at most one human controlled ship in a game, but you’re not required to enforce this.
  */
 public class ShipHuman extends SpaceShip {
-    ShipHuman() {
 
-    }
 }

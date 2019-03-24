@@ -4,7 +4,5 @@
  * Runner is less than 0.23 radians, the Runner feels threatened and will attempt to teleport.
  */
 public class ShipRunner extends SpaceShip {
-    ShipRunner() {
 
-    }
 }

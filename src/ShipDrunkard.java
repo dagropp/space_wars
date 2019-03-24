@@ -3,7 +3,5 @@
  * the ship’s exact behavior, but it must include randomness and should definitely be amusing to fight against.
  */
 public class ShipDrunkard extends SpaceShip {
-    ShipDrunkard() {
 
-    }
 }
