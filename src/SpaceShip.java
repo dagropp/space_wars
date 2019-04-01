@@ -26,7 +26,7 @@ public abstract class SpaceShip {
     private final String COMPUTER_IMG = "spaceship3.gif";
     private final String COMPUTER_IMG_SHIELD = "spaceship3_shield.gif";
     /* Class members - variables */
-    private SpaceShipPhysics shipPhysics; // Physics object that controls this ship.
+    protected SpaceShipPhysics shipPhysics; // Physics object that controls this ship.
     private int currentEnergy; // Ship's current energy level.
     private int maxEnergy; // Ship's maximum energy level.
     private int health; // Ship's health level.
@@ -54,6 +54,11 @@ public abstract class SpaceShip {
         this.boostEnergy(this.TURN_BOOST); // Boost energy by specified turn boost.
     }
 
+    /**
+     * Abstract method, to be implemented by each child class.
+     *
+     * @param game the game object to which this ship belongs.
+     */
     protected abstract void actions(SpaceWars game);
 
     /**
@@ -189,21 +194,27 @@ public abstract class SpaceShip {
     }
 
     /**
-     * Moves ship according to key pressed (left/right and with or without acceleration).
-     *
-     * @param gui Graphic interface of the game.
+     * @param game the game object to which this ship belongs.
+     * @return The angle to the closest ship.
      */
-    protected void moveShip(GameGUI gui) {
-        int direction = 0;
-        boolean right = gui.isRightPressed();
-        boolean left = gui.isLeftPressed();
-        boolean up = gui.isUpPressed();
-        // Assign direction number, according to direction pressed (right = 1, left = -1, both = 0).
-        if (right && !left)
-            direction = 1;
-        else if (left && !right)
-            direction = -1;
-        this.shipPhysics.move(up, direction); // Move to assigned direction, accelerate if 'up' was pressed.
+    protected double closestShipAngle(SpaceWars game) {
+        return this.shipPhysics.angleTo(this.fetchClosestShip(game));
+    }
+
+    /**
+     * @param game the game object to which this ship belongs.
+     * @return The distance from the closest ship.
+     */
+    protected double closestShipDistance(SpaceWars game) {
+        return this.shipPhysics.distanceFrom(this.fetchClosestShip(game));
+    }
+
+    /**
+     * @param game the game object to which this ship belongs.
+     * @return The SpaceShipPhysics object of the closest ship.
+     */
+    private SpaceShipPhysics fetchClosestShip(SpaceWars game) {
+        return game.getClosestShipTo(this).getPhysics();
     }
 
     /**

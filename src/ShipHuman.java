@@ -11,6 +11,11 @@ public class ShipHuman extends SpaceShip {
         this.human = true;
     }
 
+    /**
+     * Does the specified actions assigned to the human ship, according to keys pressed.
+     *
+     * @param game the game object to which this ship belongs.
+     */
     @Override
     protected void actions(SpaceWars game) {
         GameGUI gui = game.getGUI(); // Assign var with Game GUI.
@@ -24,5 +29,23 @@ public class ShipHuman extends SpaceShip {
         // If shot button was pressed, attempt to fire a shot.
         if (gui.isShotPressed())
             this.fire(game);
+    }
+
+    /**
+     * Moves ship according to keys pressed (left/right and with or without acceleration).
+     *
+     * @param gui Graphic interface of the game.
+     */
+    private void moveShip(GameGUI gui) {
+        int direction = 0;
+        boolean right = gui.isRightPressed();
+        boolean left = gui.isLeftPressed();
+        boolean up = gui.isUpPressed();
+        // Assign direction number, according to direction pressed (right = 1, left = -1, both = 0).
+        if (right && !left)
+            direction = 1;
+        else if (left && !right)
+            direction = -1;
+        this.shipPhysics.move(up, direction); // Move to assigned direction, accelerate if 'up' was pressed.
     }
 }
