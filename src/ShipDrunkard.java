@@ -38,7 +38,7 @@ public class ShipDrunkard extends SpaceShip {
         boolean left = this.randomBool(); // True/false according to random boolean.
         boolean accelerate = this.randomBool(); // True/false according to random boolean.
         int direction = this.turnShipManual(right, left); // Assign direction number with dedicated method.
-        this.shipPhysics.move(accelerate, direction); // Move to assigned direction, accelerate if true.
+        this.getPhysics().move(accelerate, direction); // Move to assigned direction, accelerate if true.
     }
 
     /**

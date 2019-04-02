@@ -38,14 +38,51 @@ Image files -           avocado_default.png - avocado_shield.png - cyan_default.
 =============================
 =          Design           =
 =============================
----
+- Inheritance -
+    We were asked to create 6 different SpaceShips, each with different behaviour. Despite the differences, most ships
+    share many common qualities - if not with all other ships, then with some. I decided to make this class parent to
+    all other SpaceShip classes. This class holds all SpaceShip methods that are shared by custom SpaceShips,
+    and later if any modifications are needed, some methods will be overridden. Upon construction, the only difference
+    between the classes is the image path given (except for ShipSpecial that is assigned a target).
+- Abstraction -
+    It was clear that there should be no "general" SpaceShip, so this class is not supposed to be initiated. But, as
+    explained above this class holds general methods that apply to all SpaceShips, so I decided to make it abstract.
+    Also, the main (but not only) difference between custom SpaceShips is how, when, why and which actions to perform.
+    To deal with it, I defined an abstract method in SpaceShip that is to be implemented in each child class in itself.
+- Minimal API -
+    All classes members are private. All methods that were not pre-defined in the given API are private when optional
+    (helper methods and methods to be used by child class), and protected when necessary to share between SpaceShip and
+    its children (setters, getters, etc.).
 
 
 
 =============================
 =  Implementation details   =
 =============================
----
+- boost/reduce energy/health -
+    In order to not go over the limitation levels, I defined dedicated private methods to handle boosts and reductions
+    in energy and health.
+- doAction() method -
+    This method holds the main difference between the custom ships, as explained above. There are some actions that all
+    SpaceShips share and then actions that are more unique. To deal with that, I split the method to 2 - 1 in SpaceShip
+    class, dealing with shared actions, and then it calls a unique method that is defined as abstract and implemented
+    in each class on its own.
+- Distance, angle and direction finding methods -
+    Most computer handled SpaceShips (except for Drunkard) are basing their actions on the proximity and angle of the
+    closest ship. Some are running towards it, some from it. The logic of it is basically the same, therefore I defined
+    all these relevant methods in the parent class, and each child uses these methods with some tweaks.
+- ShipDrunkard actions -
+    I have decided to treat the Drunkard ship like the human handled ship, were each button click triggers an action.
+    But, instead of responding to buttons, the Drunkard calls a method that returns random boolean value, that uses
+    rounded value of Math.random. Thus, the ship decides which way to go and which actions to perform.
+- ShipSpecial - finding the target -
+    This ship's unique behaviour as explained above, is to bully the weakest ship type out on the game. To gather which
+    ships participate in current game, this class receives the args passed in the command line in SpaceShipFactory, and
+    then analyze them in order to get find he weakest available ship as specified in the decided hierarchy.
+- ShipSpecial - picking on the target -
+    After defining the target, the ship checks the type of the closest ship. If the type doesn't match the target class,
+    it teleports until found. To avoid delays in teleportations, this ship (and only this ship) overrides the teleport
+    method, and doesn't reduce its energy. (We were told it's OK to bend game rules for the special ship).
 
 
 

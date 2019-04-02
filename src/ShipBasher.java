@@ -22,7 +22,7 @@ public class ShipBasher extends SpaceShip {
      */
     @Override
     protected void actions(SpaceWars game) {
-        this.shipPhysics.move(true, this.turnShipAuto(game, 1)); // Attempt to move ship towards the closest ship.
+        this.getPhysics().move(true, this.turnShipAuto(game, 1)); // Attempt to move ship towards the closest ship.
         if (this.closestShipDistance(game) <= this.SHIELD_DISTANCE)
             this.shieldOn(); // If passed minimal distance, attempts to turn on shield.
     }

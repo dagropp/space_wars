@@ -26,7 +26,7 @@ public class ShipRunner extends SpaceShip {
         // If ship feels threatened, attempt to teleport.
         if (this.isThreatened(game))
             this.teleport();
-        this.shipPhysics.move(true, this.turnShipAuto(game, -1)); // Attempt to move ship with dedicated method.
+        this.getPhysics().move(true, this.turnShipAuto(game, -1)); // Attempt to move ship with dedicated method.
     }
 
     /**

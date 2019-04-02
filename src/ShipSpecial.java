@@ -1,5 +1,3 @@
-import oop.ex2.SpaceShipPhysics;
-
 /**
  * This class represents a ship that has a unique behavior: it is a bully, picking on the weakest ships. Each game it
  * checks which is the weakest and most coward ship out there by this order (from weakest to strongest): Runner,
@@ -30,7 +28,7 @@ public class ShipSpecial extends SpaceShip {
     protected void actions(SpaceWars game) {
         // Actions to do if closest ship is the target.
         if (this.isTarget(game)) {
-            this.shipPhysics.move(true, this.turnShipAuto(game, 1)); // Move and accelerate towards the target.
+            this.getPhysics().move(true, this.turnShipAuto(game, 1)); // Move and accelerate towards the target.
             this.fire(game); // Attempt to fire shots towards the target.
         } else
             this.teleport(); // Closest ship is not target, teleport.
@@ -53,7 +51,7 @@ public class ShipSpecial extends SpaceShip {
      */
     @Override
     public void teleport() {
-        this.shipPhysics = new SpaceShipPhysics(); // Teleport by creating a new SpaceShipPhysics object, without cost.
+        this.resetShipPhysics(); // Teleport by creating a new SpaceShipPhysics object, without cost.
     }
 
     /**

@@ -23,13 +23,13 @@ public abstract class SpaceShip {
     private final int HIT_COST = 10; // Energy reduction for each hit, when shields are off.
     private final int SHOT_INTERVAL = 7; // Rounds intervals between each shot firing.
     /* Class members - variables */
-    protected SpaceShipPhysics shipPhysics; // Physics object that controls this ship.
     private int currentEnergy; // Ship's current energy level.
     private int maxEnergy; // Ship's maximum energy level.
     private int health; // Ship's health level.
-    private boolean shield; // Shield boolean.
     private int turnCounter; // Game's turn counter, resets on each ship's death.
     private int lastShot; // Last turn ship fired a shot.
+    private boolean shield; // Shield boolean.
+    private SpaceShipPhysics shipPhysics; // Physics object that controls this ship.
     private String imgDefault; // Ship's default image.
     private String imgShield; // Ship's image when shields are up.
 
@@ -142,7 +142,7 @@ public abstract class SpaceShip {
      */
     public void teleport() {
         if (this.reduceEnergy(this.TELEPORT_COST)) // If energy is sufficient, performs teleportation.
-            this.shipPhysics = new SpaceShipPhysics(); // Teleport by creating a new SpaceShipPhysics object.
+            this.resetShipPhysics(); // Teleport by creating a new SpaceShipPhysics object.
     }
 
     /**
@@ -151,6 +151,13 @@ public abstract class SpaceShip {
      * @param game the game object to which this ship belongs.
      */
     protected abstract void actions(SpaceWars game);
+
+    /**
+     * Re-create a new SpaceShipPhysics object.
+     */
+    protected void resetShipPhysics() {
+        this.shipPhysics = new SpaceShipPhysics();
+    }
 
     /**
      * @param game the game object to which this ship belongs.
@@ -196,24 +203,6 @@ public abstract class SpaceShip {
     }
 
     /**
-     * Sets ship's default image.
-     *
-     * @param path Containing path to image.
-     */
-    protected void setImgDefault(String path) {
-        this.imgDefault = path;
-    }
-
-    /**
-     * Sets ship's image when shields are up.
-     *
-     * @param path Containing path to image.
-     */
-    protected void setImgShield(String path) {
-        this.imgShield = path;
-    }
-
-    /**
      * Assign (or reassign upon ship's death) class members to their initial values.
      */
     private void initMembers() {
@@ -223,7 +212,7 @@ public abstract class SpaceShip {
         this.shield = false;
         this.turnCounter = 0;
         this.lastShot = -1;
-        this.shipPhysics = new SpaceShipPhysics();
+        this.resetShipPhysics();
     }
 
     /**

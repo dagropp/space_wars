@@ -46,6 +46,6 @@ public class ShipHuman extends SpaceShip {
         boolean left = gui.isLeftPressed(); // True/false according to if left key was pressed.
         boolean accelerate = gui.isUpPressed(); // True/false according to if up key was pressed.
         int direction = this.turnShipManual(right, left); // Assign direction number with dedicated method.
-        this.shipPhysics.move(accelerate, direction); // Move to assigned direction, accelerate if 'up' was pressed.
+        this.getPhysics().move(accelerate, direction); // Move to assigned direction, accelerate if 'up' was pressed.
     }
 }

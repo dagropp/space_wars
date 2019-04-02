@@ -21,7 +21,7 @@ public class ShipAggressive extends SpaceShip {
      */
     @Override
     protected void actions(SpaceWars game) {
-        this.shipPhysics.move(true, this.turnShipAuto(game, 1)); // Attempt to move ship with dedicated method.
+        this.getPhysics().move(true, this.turnShipAuto(game, 1)); // Attempt to move ship with dedicated method.
         this.fire(game); // If angle dictates, attempt to fire a shot.
     }
 
