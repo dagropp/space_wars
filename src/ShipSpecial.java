@@ -7,8 +7,8 @@ import oop.ex2.SpaceShipPhysics;
  * it. It has unlimited teleporting abilities, and if the closest ship is not the target, it will teleport until found.
  */
 public class ShipSpecial extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_special.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "earth_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "earth_shield.png"; // This ship's image when shields are up.
     private Class target; // This game's target ship's class.
 
     /**

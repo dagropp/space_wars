@@ -1,0 +1,55 @@
+dgropp
+
+
+
+
+=============================
+=      File description     =
+=============================
+SpaceShipFactory.java - Used by the driver to create all the spaceship objects according to the command line arguments.
+SpaceShip.java -        Abstract class containing the API spaceships need to implement for the SpaceWars game.
+                        Parent to all custom spaceships.
+ShipAggressive.java -   Represents a ship that pursues other ships and tries to fire at them. It will always accelerate,
+                        and turn towards the nearest ship. When its angle to the nearest ship is less than 0.21 radians,
+                        it will try to fire.
+ShipBasher.java -       Represents a ship that attempts to collide with other ships. It will always accelerate, and will
+                        constantly turn towards the closest ship. If it gets within a distance of 0.19 units (inclusive)
+                        from another ship, it will attempt to turn on its shields.
+ShipDrunkard.java -     Represents a ship that its pilot had a tad too much to drink. Performs actions and movements
+                        randomly and without any logic.
+ShipHuman.java -        Represents a ship that is controlled by the user. The keys are: left-arrow and right-arrow to
+                        turn, up-arrow to accelerate, ’d’ to fire a shot, ’s’ to turn on the shield, ’a’ to teleport.
+                        There will be at most one human controlled ship in a game.
+ShipRunner.java -       Represents a ship that attempts to run away from the fight. It will always accelerate, and will
+                        constantly turn away from the closest ship. If the nearest ship is closer than 0.25 units, and
+                        if its angle to the Runner is less than 0.23 radians, the Runner feels threatened and will
+                        attempt to teleport.
+ShipSpecial.java -      Represents a ship that has a unique behavior: it is a bully, picking on the weakest ships. Each
+                        game it checks which is the weakest and most coward ship out there by this order (from weakest
+                        to strongest): Runner, Drunkard, Human, Basher, Aggressive, Special. Thereafter, it assigns it
+                        as its target and attempts to bash and shoot it. It has unlimited teleporting abilities, and if
+                        the closest ship is not the target, it will teleport until found.
+Image files -           avocado_default.png - avocado_shield.png - cyan_default.png - cyan_shield.png -
+                        earth_default.png - earth_shield.png - grey_default.png - grey_shield.png -
+                        magenta_default.png - magenta_shield.png - violet_default.png - violet_shield.png
+
+
+
+=============================
+=          Design           =
+=============================
+---
+
+
+
+=============================
+=  Implementation details   =
+=============================
+---
+
+
+
+=============================
+=    Answers to questions   =
+=============================
+No questions for this exercise.

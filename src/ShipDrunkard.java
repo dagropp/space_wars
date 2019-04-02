@@ -3,8 +3,8 @@
  * the ship’s exact behavior, but it must include randomness and should definitely be amusing to fight against.
  */
 public class ShipDrunkard extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_drunk.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "avocado_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "avocado_shield.png"; // This ship's image when shields are up.
 
     /**
      * Constructor that initiates default spaceship values in parent class, and sets this class's images.

@@ -4,8 +4,8 @@
  * Runner is less than 0.23 radians, the Runner feels threatened and will attempt to teleport.
  */
 public class ShipRunner extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_runner.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "cyan_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "cyan_shield.png"; // This ship's image when shields are up.
     private final double THREAT_DISTANCE = 0.25; // Ship's minimal distance to when it starts feeling threatened.
     private final double THREAT_ANGLE = 0.23; // Ship's minimal angle to when it starts feeling threatened.
 

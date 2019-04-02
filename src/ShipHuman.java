@@ -6,8 +6,8 @@ import oop.ex2.GameGUI;
  * at most one human controlled ship in a game, but you’re not required to enforce this.
  */
 public class ShipHuman extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_human.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "grey_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "grey_shield.png"; // This ship's image when shields are up.
 
     /**
      * Constructor that initiates default spaceship values in parent class, and sets this class's images.

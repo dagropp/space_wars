@@ -3,8 +3,8 @@
  * towards the nearest ship. When its angle to the nearest ship is less than 0.21 radians, it will try to fire.
  */
 public class ShipAggressive extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_aggressive.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "magenta_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "magenta_shield.png"; // This ship's image when shields are up.
     private final double FIRE_ANGLE = 0.21; // Ship's minimal angle to when it starts to fire.
 
     /**

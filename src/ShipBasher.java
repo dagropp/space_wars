@@ -4,8 +4,8 @@
  * it will attempt to turn on its shields.
  */
 public class ShipBasher extends SpaceShip {
-    private static final String IMG_DEFAULT = "ship_basher.gif"; // This ship's default image.
-    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private static final String IMG_DEFAULT = "violet_default.png"; // This ship's default image.
+    private static final String IMG_SHIELD = "violet_shield.png"; // This ship's image when shields are up.
     private final double SHIELD_DISTANCE = 0.19; // Ship's minimal distance to when it turns shield on.
 
     /**
