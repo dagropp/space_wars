@@ -3,24 +3,36 @@
  * towards the nearest ship. When its angle to the nearest ship is less than 0.21 radians, it will try to fire.
  */
 public class ShipAggressive extends SpaceShip {
-    private final double FIRE_ANGLE = 0.21;
+    private static final String IMG_DEFAULT = "ship_aggressive.gif"; // This ship's default image.
+    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private final double FIRE_ANGLE = 0.21; // Ship's minimal angle to when it starts to fire.
 
+    /**
+     * Constructor that initiates default spaceship values in parent class, and sets this class's images.
+     */
+    public ShipAggressive() {
+        super(ShipAggressive.IMG_DEFAULT, ShipAggressive.IMG_SHIELD); // Call parent constructor with ship's images.
+    }
+
+    /**
+     * Does the specified actions assigned to the aggressive ship, according to angle to closest ship.
+     *
+     * @param game the game object to which this ship belongs.
+     */
     @Override
     protected void actions(SpaceWars game) {
-        this.moveShip(game); // Attempt to move ship with dedicated method.
-        // If angle dictates, attempt to fire a shot.
-        this.fire(game);
+        this.shipPhysics.move(true, this.turnShipAuto(game, 1)); // Attempt to move ship with dedicated method.
+        this.fire(game); // If angle dictates, attempt to fire a shot.
     }
 
-    private void moveShip(SpaceWars game) {
-        // Using ternary conditional statement, assign left or right, based on closest ship angle.
-        int direction = this.closestShipAngle(game) >= 0 ? -1 : 1;
-        this.shipPhysics.move(true, direction); // Move to assigned direction, always accelerate.
-    }
-
+    /**
+     * Overrides the fire() method from SpaceShip, to fire only when specified angle is met.
+     *
+     * @param game the game object.
+     */
     @Override
     public void fire(SpaceWars game) {
         if (this.closestShipAngle(game) < this.FIRE_ANGLE)
-            super.fire(game);
+            super.fire(game); // Once angle is met, call original method from SpaceShip.
     }
 }

@@ -1,6 +1,9 @@
 import java.awt.*;
+import java.net.URL;
 
 import oop.ex2.*;
+
+import javax.swing.*;
 
 /**
  * The API spaceships need to implement for the SpaceWars game. It is your decision whether SpaceShip.java will be an
@@ -20,11 +23,6 @@ public abstract class SpaceShip {
     private final int SHIELD_COST = 3; // Energy reduction for each shield lifting.
     private final int HIT_COST = 10; // Energy reduction for each hit, when shields are off.
     private final int SHOT_INTERVAL = 7; // Rounds intervals between each shot firing.
-    private final String IMG_DIR = "/oop.ex2/";
-    private final String HUMAN_IMG = "spaceship2.gif";
-    private final String HUMAN_IMG_SHIELD = "spaceship2_shield.gif";
-    private final String COMPUTER_IMG = "spaceship3.gif";
-    private final String COMPUTER_IMG_SHIELD = "spaceship3_shield.gif";
     /* Class members - variables */
     protected SpaceShipPhysics shipPhysics; // Physics object that controls this ship.
     private int currentEnergy; // Ship's current energy level.
@@ -33,13 +31,16 @@ public abstract class SpaceShip {
     private boolean shield; // Shield boolean.
     private int turnCounter; // Game's turn counter, resets on each ship's death.
     private int lastShot; // Last turn ship fired a shot.
-    protected boolean human = false;
+    private String imgDefault; // Ship's default image.
+    private String imgShield; // Ship's image when shields are up.
 
     /**
      * Constructor for SpaceShip object. Assign members with initial values.
      */
-    public SpaceShip() {
-        this.initMembers();
+    public SpaceShip(String imgDefault, String imgShield) {
+        this.initMembers(); // Call method to initialize default class members.
+        this.imgDefault = imgDefault; // Sets ship's default image.
+        this.imgShield = imgShield; // Sets ship's image when shields are up.
     }
 
     /**
@@ -53,13 +54,6 @@ public abstract class SpaceShip {
         this.actions(game);
         this.boostEnergy(this.TURN_BOOST); // Boost energy by specified turn boost.
     }
-
-    /**
-     * Abstract method, to be implemented by each child class.
-     *
-     * @param game the game object to which this ship belongs.
-     */
-    protected abstract void actions(SpaceWars game);
 
     /**
      * This method is called every time a collision with this ship occurs
@@ -114,9 +108,9 @@ public abstract class SpaceShip {
      * @return the image of this ship.
      */
     public Image getImage() {
-        // This method has not proved to work...
-        String path = this.human ? this.humanImgPath() : this.computerImgPath();
-        return this.produceRelevantImage(path);
+        String img = this.shield ? this.imgShield : this.imgDefault; // Sets image according to shield's status.
+        ImageIcon icon = new ImageIcon(img); // Creates ImageIcon with relevant specified path.
+        return icon.getImage(); // Return Image object.
     }
 
     /**
@@ -140,19 +134,105 @@ public abstract class SpaceShip {
      * Attempts to turn on the shield.
      */
     public void shieldOn() {
-        // If energy is sufficient, turns on shield.
-        if (this.reduceEnergy(this.SHIELD_COST)) {
+        if (this.reduceEnergy(this.SHIELD_COST)) // If energy is sufficient, turns on shield.
             this.shield = true; // Turn shield on, by switching shield var to true.
-        }
     }
 
     /**
      * Attempts to teleport.
      */
     public void teleport() {
-        // If energy is sufficient, performs teleportation.
-        if (this.reduceEnergy(this.TELEPORT_COST))
+        if (this.reduceEnergy(this.TELEPORT_COST)) // If energy is sufficient, performs teleportation.
             this.shipPhysics = new SpaceShipPhysics(); // Teleport by creating a new SpaceShipPhysics object.
+    }
+
+    /**
+     * Abstract method, to be implemented by each child class.
+     *
+     * @param game the game object to which this ship belongs.
+     */
+    protected abstract void actions(SpaceWars game);
+
+    /**
+     * @param game the game object to which this ship belongs.
+     * @return The angle to the closest ship.
+     */
+    protected double closestShipAngle(SpaceWars game) {
+        return this.shipPhysics.angleTo(this.fetchClosestShip(game));
+    }
+
+    /**
+     * @param game the game object to which this ship belongs.
+     * @return The distance from the closest ship.
+     */
+    protected double closestShipDistance(SpaceWars game) {
+        return this.shipPhysics.distanceFrom(this.fetchClosestShip(game));
+    }
+
+    /**
+     * Method for human handled/random child classes. Assign direction number according to triggered/random direction.
+     *
+     * @param right Trigger boolean (manually/automatically).
+     * @param left  Trigger boolean (manually/automatically).
+     * @return 1 for right, -1 for left, 0 for straight.
+     */
+    protected int turnShipManual(boolean right, boolean left) {
+        if (right && !left) // Right was triggered, left was not.
+            return 1;
+        else if (left && !right) // Left was triggered, right was not.
+            return -1;
+        return 0; // Right and left were triggered together, or none were.
+    }
+
+    /**
+     * Method for computer handled child classes to turn towards or away from the nearest ship.
+     *
+     * @param game      the game object to which this ship belongs.
+     * @param runFactor 1 if turning towards closest ship, -1 if turning away.
+     * @return 1 for right, -1 for left, 0 for straight.
+     */
+    protected int turnShipAuto(SpaceWars game, int runFactor) {
+        int direction = this.closestShipAngle(game) >= 0 ? 1 : -1;
+        return runFactor * direction;
+    }
+
+    /**
+     * Sets ship's default image.
+     *
+     * @param path Containing path to image.
+     */
+    protected void setImgDefault(String path) {
+        this.imgDefault = path;
+    }
+
+    /**
+     * Sets ship's image when shields are up.
+     *
+     * @param path Containing path to image.
+     */
+    protected void setImgShield(String path) {
+        this.imgShield = path;
+    }
+
+    /**
+     * Assign (or reassign upon ship's death) class members to their initial values.
+     */
+    private void initMembers() {
+        this.currentEnergy = this.INITIAL_CURRENT_ENERGY;
+        this.maxEnergy = this.INITIAL_MAX_ENERGY;
+        this.health = this.MAX_HEALTH;
+        this.shield = false;
+        this.turnCounter = 0;
+        this.lastShot = -1;
+        this.shipPhysics = new SpaceShipPhysics();
+    }
+
+    /**
+     * @param game the game object to which this ship belongs.
+     * @return The SpaceShipPhysics object of the closest ship.
+     */
+    private SpaceShipPhysics fetchClosestShip(SpaceWars game) {
+        return game.getClosestShipTo(this).getPhysics();
     }
 
     /**
@@ -191,59 +271,5 @@ public abstract class SpaceShip {
         // Updates current energy to fit max energy - if it's higher reduces it, otherwise does nothing.
         if (this.currentEnergy > this.maxEnergy)
             this.currentEnergy = this.maxEnergy;
-    }
-
-    /**
-     * @param game the game object to which this ship belongs.
-     * @return The angle to the closest ship.
-     */
-    protected double closestShipAngle(SpaceWars game) {
-        return this.shipPhysics.angleTo(this.fetchClosestShip(game));
-    }
-
-    /**
-     * @param game the game object to which this ship belongs.
-     * @return The distance from the closest ship.
-     */
-    protected double closestShipDistance(SpaceWars game) {
-        return this.shipPhysics.distanceFrom(this.fetchClosestShip(game));
-    }
-
-    /**
-     * @param game the game object to which this ship belongs.
-     * @return The SpaceShipPhysics object of the closest ship.
-     */
-    private SpaceShipPhysics fetchClosestShip(SpaceWars game) {
-        return game.getClosestShipTo(this).getPhysics();
-    }
-
-    /**
-     * Assign (or reassign) class members to their initial values.
-     */
-    private void initMembers() {
-        this.currentEnergy = this.INITIAL_CURRENT_ENERGY;
-        this.maxEnergy = this.INITIAL_MAX_ENERGY;
-        this.health = this.MAX_HEALTH;
-        this.shield = false;
-        this.turnCounter = 0;
-        this.lastShot = -1;
-        this.shipPhysics = new SpaceShipPhysics();
-    }
-
-    protected Image produceRelevantImage(String path) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        return toolkit.getImage(path);
-    }
-
-    private String humanImgPath() {
-        if (this.shield)
-            return this.IMG_DIR + this.HUMAN_IMG_SHIELD;
-        return this.IMG_DIR + this.HUMAN_IMG;
-    }
-
-    private String computerImgPath() {
-        if (this.shield)
-            return this.IMG_DIR + this.COMPUTER_IMG_SHIELD;
-        return this.IMG_DIR + this.COMPUTER_IMG;
     }
 }

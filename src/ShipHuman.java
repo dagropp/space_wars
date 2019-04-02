@@ -6,9 +6,14 @@ import oop.ex2.GameGUI;
  * at most one human controlled ship in a game, but you’re not required to enforce this.
  */
 public class ShipHuman extends SpaceShip {
+    private static final String IMG_DEFAULT = "ship_human.gif"; // This ship's default image.
+    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+
+    /**
+     * Constructor that initiates default spaceship values in parent class, and sets this class's images.
+     */
     public ShipHuman() {
-        super();
-        this.human = true;
+        super(ShipHuman.IMG_DEFAULT, ShipHuman.IMG_SHIELD); // Call parent constructor with ship's images.
     }
 
     /**
@@ -37,15 +42,10 @@ public class ShipHuman extends SpaceShip {
      * @param gui Graphic interface of the game.
      */
     private void moveShip(GameGUI gui) {
-        int direction = 0;
-        boolean right = gui.isRightPressed();
-        boolean left = gui.isLeftPressed();
-        boolean up = gui.isUpPressed();
-        // Assign direction number, according to direction pressed (right = 1, left = -1, both = 0).
-        if (right && !left)
-            direction = 1;
-        else if (left && !right)
-            direction = -1;
-        this.shipPhysics.move(up, direction); // Move to assigned direction, accelerate if 'up' was pressed.
+        boolean right = gui.isRightPressed(); // True/false according to if right key was pressed.
+        boolean left = gui.isLeftPressed(); // True/false according to if left key was pressed.
+        boolean accelerate = gui.isUpPressed(); // True/false according to if up key was pressed.
+        int direction = this.turnShipManual(right, left); // Assign direction number with dedicated method.
+        this.shipPhysics.move(accelerate, direction); // Move to assigned direction, accelerate if 'up' was pressed.
     }
 }

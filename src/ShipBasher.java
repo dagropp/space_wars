@@ -4,23 +4,26 @@
  * it will attempt to turn on its shields.
  */
 public class ShipBasher extends SpaceShip {
-    private final double SHIELD_DISTANCE = 0.19;
+    private static final String IMG_DEFAULT = "ship_basher.gif"; // This ship's default image.
+    private static final String IMG_SHIELD = "spaceship.gif"; // This ship's image when shields are up.
+    private final double SHIELD_DISTANCE = 0.19; // Ship's minimal distance to when it turns shield on.
 
+    /**
+     * Constructor that initiates default spaceship values in parent class, and sets this class's images.
+     */
+    public ShipBasher() {
+        super(ShipBasher.IMG_DEFAULT, ShipBasher.IMG_SHIELD); // Call parent constructor with ship's images.
+    }
+
+    /**
+     * Does the specified actions assigned to the basher ship, according to closest ship distance.
+     *
+     * @param game the game object to which this ship belongs.
+     */
     @Override
     protected void actions(SpaceWars game) {
-        this.moveShip(game); // Attempt to move ship with dedicated method.
-        // If threat is still there, attempt to turn on shield.
-        this.shieldOn(game);
-    }
-
-    private void moveShip(SpaceWars game) {
-        // Using ternary conditional statement, assign left or right, based on closest ship angle.
-        int direction = this.closestShipAngle(game) >= 0 ? -1 : 1;
-        this.shipPhysics.move(true, direction); // Move to assigned direction, always accelerate.
-    }
-
-    public void shieldOn(SpaceWars game) {
+        this.shipPhysics.move(true, this.turnShipAuto(game, 1)); // Attempt to move ship towards the closest ship.
         if (this.closestShipDistance(game) <= this.SHIELD_DISTANCE)
-            super.shieldOn();
+            this.shieldOn(); // If passed minimal distance, attempts to turn on shield.
     }
 }
