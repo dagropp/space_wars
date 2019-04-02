@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.net.URL;
 
 import oop.ex2.*;
 
