@@ -49,6 +49,15 @@ Image files -           avocado_default.png - avocado_shield.png - cyan_default.
     explained above this class holds general methods that apply to all SpaceShips, so I decided to make it abstract.
     Also, the main (but not only) difference between custom SpaceShips is how, when, why and which actions to perform.
     To deal with it, I defined an abstract method in SpaceShip that is to be implemented in each child class in itself.
+- Extensibility -
+    As explained above, by defining general actions and behaviours in SpaceShip parent abstract class, each custom
+    SpaceShip class holds the unique behaviours and actions of this spaceship. Thus, if one wanted to update general
+    actions and behaviours, it should be done in SpaceShip class, and updating unique actions and behaviours should be
+    done in the child classes.
+- Modularity -
+    As explained above, each special ship has a distinct class extending the general SpaceShip class. Also, in all
+    classes, each action/test/calculation is done with its own (usually private) method. All relevant info (numbers,
+    paths, etc.) are held as private class constants, thus it's easier to update and understand them.
 - Minimal API -
     All classes members are private. All methods that were not pre-defined in the given API are private when optional
     (helper methods and methods to be used by child class), and protected when necessary to share between SpaceShip and
@@ -74,7 +83,9 @@ Image files -           avocado_default.png - avocado_shield.png - cyan_default.
 - ShipDrunkard actions -
     I have decided to treat the Drunkard ship like the human handled ship, were each button click triggers an action.
     But, instead of responding to buttons, the Drunkard calls a method that returns random boolean value, that uses
-    rounded value of Math.random. Thus, the ship decides which way to go and which actions to perform.
+    rounded value of Math.random. Thus, the ship decisions on which way to go and which actions to perform is
+    completely random and unexpected. The energy/health consequences of the drunkard ship's actions, are the same as
+    all other ships - like in the real world...
 - ShipSpecial - finding the target -
     This ship's unique behaviour as explained above, is to bully the weakest ship type out on the game. To gather which
     ships participate in current game, this class receives the args passed in the command line in SpaceShipFactory, and
@@ -82,7 +93,8 @@ Image files -           avocado_default.png - avocado_shield.png - cyan_default.
 - ShipSpecial - picking on the target -
     After defining the target, the ship checks the type of the closest ship. If the type doesn't match the target class,
     it teleports until found. To avoid delays in teleportations, this ship (and only this ship) overrides the teleport
-    method, and doesn't reduce its energy. (We were told it's OK to bend game rules for the special ship).
+    method, and doesn't reduce its energy, but can teleport only every 10 rounds. (We were told it's OK to bend game
+    rules for the special ship).
 
 
 

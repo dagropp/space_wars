@@ -22,6 +22,8 @@ public abstract class SpaceShip {
     private final int SHIELD_COST = 3; // Energy reduction for each shield lifting.
     private final int HIT_COST = 10; // Energy reduction for each hit, when shields are off.
     private final int SHOT_INTERVAL = 7; // Rounds intervals between each shot firing.
+    private final int RIGHT_TURN = 1;
+    private final int LEFT_TURN = -1;
     /* Class members - variables */
     private int currentEnergy; // Ship's current energy level.
     private int maxEnergy; // Ship's maximum energy level.
@@ -33,6 +35,8 @@ public abstract class SpaceShip {
     private String imgDefault; // Ship's default image.
     private String imgShield; // Ship's image when shields are up.
 
+    /* Constructors */
+
     /**
      * Constructor for SpaceShip object. Assign members with initial values.
      */
@@ -41,6 +45,8 @@ public abstract class SpaceShip {
         this.imgDefault = imgDefault; // Sets ship's default image.
         this.imgShield = imgShield; // Sets ship's image when shields are up.
     }
+
+    /* Public instance Methods */
 
     /**
      * Does the actions of this ship for this round. This is called once per round by the SpaceWars game driver.
@@ -145,6 +151,8 @@ public abstract class SpaceShip {
             this.resetShipPhysics(); // Teleport by creating a new SpaceShipPhysics object.
     }
 
+    /* Protected instance Methods */
+
     /**
      * Abstract method, to be implemented by each child class.
      *
@@ -184,9 +192,9 @@ public abstract class SpaceShip {
      */
     protected int turnShipManual(boolean right, boolean left) {
         if (right && !left) // Right was triggered, left was not.
-            return 1;
+            return this.RIGHT_TURN;
         else if (left && !right) // Left was triggered, right was not.
-            return -1;
+            return this.LEFT_TURN;
         return 0; // Right and left were triggered together, or none were.
     }
 
@@ -198,9 +206,18 @@ public abstract class SpaceShip {
      * @return 1 for right, -1 for left, 0 for straight.
      */
     protected int turnShipAuto(SpaceWars game, int runFactor) {
-        int direction = this.closestShipAngle(game) >= 0 ? 1 : -1;
+        int direction = this.closestShipAngle(game) >= 0 ? this.RIGHT_TURN : this.LEFT_TURN;
         return runFactor * direction;
     }
+
+    /**
+     * @return Round number in current game.
+     */
+    protected int getTurnCounter() {
+        return this.turnCounter;
+    }
+
+    /* Private instance Methods */
 
     /**
      * Assign (or reassign upon ship's death) class members to their initial values.

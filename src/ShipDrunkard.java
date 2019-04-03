@@ -3,15 +3,20 @@
  * the ship’s exact behavior, but it must include randomness and should definitely be amusing to fight against.
  */
 public class ShipDrunkard extends SpaceShip {
+    /* Class members - constant variables */
     private static final String IMG_DEFAULT = "avocado_default.png"; // This ship's default image.
     private static final String IMG_SHIELD = "avocado_shield.png"; // This ship's image when shields are up.
+
+    /* Constructors */
 
     /**
      * Constructor that initiates default spaceship values in parent class, and sets this class's images.
      */
     public ShipDrunkard() {
-        super(ShipDrunkard.IMG_DEFAULT, ShipDrunkard.IMG_SHIELD); // Call parent constructor with ship's images.
+        super(IMG_DEFAULT, IMG_SHIELD); // Call parent constructor with ship's images.
     }
+
+    /* Protected instance Methods */
 
     /**
      * Does the specified actions assigned to the drunkard ship, according to random booleans.
@@ -30,15 +35,15 @@ public class ShipDrunkard extends SpaceShip {
             this.fire(game); // Attempt to fire a shot.
     }
 
+    /* Private instance Methods */
+
     /**
      * Moves ship according to random booleans.
      */
     private void moveShip() {
-        boolean right = this.randomBool(); // True/false according to random boolean.
-        boolean left = this.randomBool(); // True/false according to random boolean.
-        boolean accelerate = this.randomBool(); // True/false according to random boolean.
-        int direction = this.turnShipManual(right, left); // Assign direction number with dedicated method.
-        this.getPhysics().move(accelerate, direction); // Move to assigned direction, accelerate if true.
+        // Assign direction number with dedicated method, according to random boolean.
+        int direction = this.turnShipManual(this.randomBool(), this.randomBool());
+        this.getPhysics().move(this.randomBool(), direction); // Move to assigned direction, accelerate if true.
     }
 
     /**
